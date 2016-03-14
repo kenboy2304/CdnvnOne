@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using CDNVNONE.Entities;
 using CDNVNONE.Repository;
 
 namespace CDNVNONE.Service
 {
-    public abstract class EntityService<T> : IEntityService<T> where T : BaseEntity
+    public abstract class EntityService<T,TContext> : IEntityService<T> where T : BaseEntity where TContext:DbContext
     {
-        private IUnitOfWork _unitOfWork;
-        private IGenericRepository<T> _repository;
+        private IUnitOfWork<TContext> _unitOfWork;
+        private IGenericRepository<T,TContext> _repository;
 
-        public EntityService(IUnitOfWork unitOfWork, IGenericRepository<T> repository)
+        public EntityService(IUnitOfWork<TContext> unitOfWork, IGenericRepository<T,TContext> repository)
         {
             _unitOfWork = unitOfWork;
             _repository = repository;
         }
-
 
         public virtual void Create(T entity)
         {

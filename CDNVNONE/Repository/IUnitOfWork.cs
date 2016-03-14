@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Data.Entity;
 
 namespace CDNVNONE.Repository
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork<TContext> : IDisposable where TContext : DbContext
     {
 
         /// <summary>

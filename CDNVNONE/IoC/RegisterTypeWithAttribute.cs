@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -17,7 +18,11 @@ namespace CDNVNONE
         public static IUnityContainer RegisterTypeWithAttribute(IUnityContainer container)
         {
             if (container == null) return null;
-            var asemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a=>!a.FullName.StartsWith("Unity"));
+            var path = AppDomain.CurrentDomain.GetAssemblies();
+
+            var asemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.FullName.StartsWith("System") && !a.FullName.StartsWith("Unity") && !a.FullName.StartsWith("Microsoft"));
+            
+                //AppDomain.CurrentDomain.GetAssemblies().Where(a => !a.FullName.StartsWith("Unity"));
             var list = asemblies.SelectMany(a => a.GetTypes());
             var typesHasRegiterTypeAttr = list.Where(t => t.IsClass && Attribute.IsDefined(t, typeof(RegisterTypeAttribute)));
             foreach (var type in typesHasRegiterTypeAttr)

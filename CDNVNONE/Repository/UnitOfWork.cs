@@ -6,25 +6,21 @@ namespace CDNVNONE.Repository
     /// <summary>
     /// The Entity Framework implementation of IUnitOfWork
     /// </summary>
-    [RegisterType(typeof(IUnitOfWork))]
-    public sealed class UnitOfWork : IUnitOfWork
+    public abstract class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext
     {
         /// <summary>
         /// The DbContext
         /// </summary>
-        private DbContext _dbContext;
+        private TContext _dbContext;
 
         /// <summary>
         /// Initializes a new instance of the UnitOfWork class.
         /// </summary>
         /// <param name="context">The object context</param>
-        public UnitOfWork(DbContext context)
+        public UnitOfWork(TContext context)
         {
-
             _dbContext = context;
         }
-
-
 
         /// <summary>
         /// Saves all pending changes
